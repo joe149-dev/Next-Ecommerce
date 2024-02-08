@@ -1,11 +1,10 @@
 import { MyPage } from "@/layouts/Types";
 
-const Home: MyPage = () => {
+const About: MyPage = () => {
     return (
         <>
             Home Page
         </>
     )
 }
-Home.Layout = "Base"
-export default Home;
+export default About;
