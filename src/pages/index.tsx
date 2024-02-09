@@ -1,6 +1,6 @@
-import { MyPage } from "@/layouts/Types";
+import { LayoutsTypes } from "@/layouts/Types";
 
-const Home: MyPage = () => {
+const Home: LayoutsTypes = () => {
     return (
         <>
             Home Page
