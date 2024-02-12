@@ -1,19 +1,6 @@
 import React from "react";
 import { useGetProductsQuery } from "@/services/product";
 
-// const products = [
-//     {
-//       id: 1,
-//       name: 'Basic Tee',
-//       href: '#',
-//       imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-//       imageAlt: "Front of men's Basic Tee in black.",
-//       price: '$35',
-//       color: 'Black',
-//     },
-//     // More products...
-//   ]
-
 const Products = () => {
   const {
     data: products,
@@ -56,7 +43,7 @@ const Products = () => {
                       </h3>
                       <p className="mt-1 text-sm text-gray-500">Black</p>
                     </div>
-                    <p className="text-sm font-medium text-gray-900">$35</p>
+                    <p className="text-sm font-medium text-gray-900"><span className="line-through text-black/50">{product.price.price}</span> {product.price.discountPrice}</p>
                   </div>
                 </div>
               ))}
