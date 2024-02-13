@@ -9,6 +9,8 @@ export const loginSlice = createSlice({
     name: 'login',
     reducers: {
         setToken: (state, action: PayloadAction<string>) => {
+            console.log(action.payload);
+            
             localStorage.setItem('token', action.payload)
             state.token = action.payload
         }

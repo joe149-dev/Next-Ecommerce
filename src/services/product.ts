@@ -9,7 +9,7 @@ export const productApi = createApi({
             const token = localStorage.getItem('token') as string
 
             if (token !== '') {
-                headers.set('Authorization', token)
+                headers.set('Authorization', `Bearer ${token}`)
             }
             return headers
         },

@@ -7,5 +7,4 @@ const Home: LayoutsTypes = () => {
         </>
     )
 }
-Home.Layout = "Base"
 export default Home;

@@ -18,7 +18,6 @@ const ProductDetail = () => {
   const handleRating = (rating: number) => {
     setRating({
       productId: product.row.id,
-      userId: 1,
       rating,
     });
   };
@@ -59,7 +58,7 @@ const ProductDetail = () => {
                             className="cursor-pointer"
                             key={v}
                           >
-                            {ratingAverage() <= v ? (
+                            {ratingAverage() < v ? (
                               <svg
                               fill="none"
                               stroke="currentColor"
