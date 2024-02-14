@@ -38,7 +38,24 @@ export const productApi = createApi({
                 }
             }
         }),
+        setAddBasket: builder.mutation({
+            query: (body) => ({
+                url: '/product/add-basket',
+                method: 'POST',
+                body,
+            }),
+            transformResponse: (result: { token: string }) => result,
+            async onQueryStarted(_args, { dispatch, queryFulfilled }) {
+                try {
+                    const { data } = await queryFulfilled;
+                    console.log(data);
+                    
+                    // dispatch(setToken(data.token))
+                } catch (error) {
+                }
+            }
+        }),
     }),
 })
 
-export const { useGetProductsQuery, useGetProductDetailQuery, useSetRatingMutation } = productApi
+export const { useGetProductsQuery, useGetProductDetailQuery, useSetRatingMutation, useSetAddBasketMutation } = productApi
