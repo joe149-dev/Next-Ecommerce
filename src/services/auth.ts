@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { base } from '@/configs/route/base'
 import { setToken } from '@/store/apps/auth/token';
+import { setUser } from '@/store/apps/auth/user';
 
 export const loginApi = createApi({
     reducerPath: 'loginApi',
@@ -10,7 +11,7 @@ export const loginApi = createApi({
             const token = localStorage.getItem('token') as string
 
             if (token !== '') {
-                headers.set('Authorization', token)
+                headers.set('Authorization', `Bearer ${token}`)
             }
             return headers
         },
@@ -18,6 +19,17 @@ export const loginApi = createApi({
     endpoints: (builder) => ({
         getIsLogin: builder.query<any, string>({
             query: (url) => `${url}`
+        }),
+        getMe: builder.query<any, string>({
+            query: () => `/user/me`,
+            transformResponse: (result: { user: {} }) => result,
+            async onQueryStarted(_args, { dispatch, queryFulfilled }) {
+                try {
+                    const { data } = await queryFulfilled;
+                    dispatch(setUser(data.user))
+                } catch (error) {
+                }
+            }
         }),
         login: builder.mutation({
             query: (body) => ({
@@ -37,4 +49,4 @@ export const loginApi = createApi({
     }),
 })
 
-export const { useGetIsLoginQuery, useLoginMutation } = loginApi
+export const { useGetIsLoginQuery, useGetMeQuery, useLoginMutation } = loginApi

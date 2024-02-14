@@ -1,6 +1,11 @@
+import { RootState } from "@/store";
 import React from "react";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
+  // ** Selector **
+  const user: any = useSelector((state: RootState) => state.userState);
+
   return (
     <>
       <div className="navbar bg-base-100">
@@ -129,12 +134,14 @@ const Navbar = () => {
             >
               <li>
                 <a className="justify-between">
-                  Profile
-                  <span className="badge">New</span>
+                  {user.user.name}
                 </a>
               </li>
               <li>
-                <a>Settings</a>
+                <a>My Cart</a>
+              </li>
+              <li>
+                <a>My Orders</a>
               </li>
               <li>
                 <a>Logout</a>
