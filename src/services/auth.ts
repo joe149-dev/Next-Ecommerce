@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { base } from '@/configs/route/base'
 import { setToken } from '@/store/apps/auth/token';
 import { setUser } from '@/store/apps/auth/user';
+import { setBasket } from '@/store/apps/product/basket';
 
 export const loginApi = createApi({
     reducerPath: 'loginApi',
@@ -22,11 +23,12 @@ export const loginApi = createApi({
         }),
         getMe: builder.query<any, string>({
             query: () => `/user/me`,
-            transformResponse: (result: { user: {} }) => result,
+            transformResponse: (result: { user: {}, basket: {} }) => result,
             async onQueryStarted(_args, { dispatch, queryFulfilled }) {
                 try {
                     const { data } = await queryFulfilled;
                     dispatch(setUser(data.user))
+                    dispatch(setBasket(data.basket))
                 } catch (error) {
                 }
             }

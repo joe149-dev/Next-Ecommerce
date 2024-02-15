@@ -1,10 +1,12 @@
 import { RootState } from "@/store";
+import Link from "next/link";
 import React from "react";
 import { useSelector } from "react-redux";
 
 const Navbar = () => {
   // ** Selector **
   const user: any = useSelector((state: RootState) => state.userState);
+  const basket: any = useSelector((state: RootState) => state.basketState);
 
   return (
     <>
@@ -97,7 +99,9 @@ const Navbar = () => {
                     d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
                   />
                 </svg>
-                <span className="badge badge-sm indicator-item">8</span>
+                <span className="badge badge-sm indicator-item">
+                  {basket.basket.length}
+                </span>
               </div>
             </div>
             <div
@@ -105,8 +109,16 @@ const Navbar = () => {
               className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow"
             >
               <div className="card-body">
-                <span className="font-bold text-lg">8 Items</span>
-                <span className="text-info">Subtotal: $999</span>
+                <span className="font-bold text-lg">
+                  {basket.basket.length} Items
+                </span>
+                <span className="text-info">
+                  Subtotal:{" "}
+                  {basket.basket.reduce(
+                    (acc: number, o: any) => acc + parseFloat(o.total),
+                    0
+                  )}
+                </span>
                 <div className="card-actions">
                   <button className="btn btn-primary btn-block">
                     View cart
@@ -133,15 +145,13 @@ const Navbar = () => {
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
               <li>
-                <a className="justify-between">
-                  {user.user.name}
-                </a>
+                <a className="justify-between">{user.user.name}</a>
               </li>
               <li>
-                <a>My Cart</a>
+                <Link href="/my-cart">My Cart</Link>
               </li>
               <li>
-                <a>My Orders</a>
+                <Link href="/my-orders">My Orders</Link>
               </li>
               <li>
                 <a>Logout</a>
