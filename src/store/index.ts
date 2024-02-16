@@ -6,6 +6,7 @@ import userReducer from "./apps/auth/user";
 import basketReducer from "./apps/product/basket";
 import { loginApi } from "../services/auth"
 import { basketApi } from "../services/basket"
+import { paymentApi } from "../services/payment"
 import { productApi } from "../services/product"
 
 export const store = configureStore({
@@ -15,12 +16,14 @@ export const store = configureStore({
         basketState: basketReducer,
         [loginApi.reducerPath]: loginApi.reducer,
         [basketApi.reducerPath]: basketApi.reducer,
+        [paymentApi.reducerPath]: paymentApi.reducer,
         [productApi.reducerPath]: productApi.reducer
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat(
             loginApi.middleware,
             basketApi.middleware,
+            paymentApi.middleware,
             productApi.middleware,
         ),
 })

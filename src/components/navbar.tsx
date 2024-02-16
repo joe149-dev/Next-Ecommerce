@@ -120,9 +120,7 @@ const Navbar = () => {
                   )}
                 </span>
                 <div className="card-actions">
-                  <button className="btn btn-primary btn-block">
-                    View cart
-                  </button>
+                  <Link href="/view-cart">View cart</Link>
                 </div>
               </div>
             </div>
