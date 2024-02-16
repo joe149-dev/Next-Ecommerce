@@ -1,8 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { base } from '@/configs/route/base'
+import { setBasket } from '@/store/apps/product/basket'
 
-export const productApi = createApi({
-    reducerPath: 'productApi',
+export const basketApi = createApi({
+    reducerPath: 'basketApi',
     baseQuery: fetchBaseQuery({
         baseUrl: base.base,
         prepareHeaders: (headers, { getState, endpoint }) => {
@@ -21,18 +22,17 @@ export const productApi = createApi({
                 method: 'POST',
                 body,
             }),
-            transformResponse: (result: { token: string }) => result,
+            transformResponse: (result: { basket: [] }) => result,
             async onQueryStarted(_args, { dispatch, queryFulfilled }) {
                 try {
                     const { data } = await queryFulfilled;
-                    console.log(data);
-                    
-                    // dispatch(setToken(data.token))
+                    dispatch(setBasket(data.basket))
                 } catch (error) {
+                    console.log(error);
                 }
             }
         }),
     }),
 })
 
-export const { useRemoveBasketMutation } = productApi
+export const { useRemoveBasketMutation } = basketApi

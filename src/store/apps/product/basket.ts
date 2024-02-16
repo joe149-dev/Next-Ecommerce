@@ -9,7 +9,6 @@ export const basketSlice = createSlice({
     name: 'basket',
     reducers: {
         setBasket: (state, action: PayloadAction<[]>) => {
-            console.log('setBasket payload >> ', action.payload);
             state.basket = action.payload
         }
     }

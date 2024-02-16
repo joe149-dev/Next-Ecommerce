@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
 const MyCart = () => {
-    const [removeBasket, result] = useRemoveBasketMutation()
+  const [removeBasket, result] = useRemoveBasketMutation();
   // ** Selector **
   const basket: any = useSelector((state: RootState) => state.basketState);
 
@@ -31,7 +31,7 @@ const MyCart = () => {
   };
 
   const handleClickMovementDelete = (item: any) => {
-    removeBasket({movements: [item.id]})
+    removeBasket({ movements: [item.id] }) // [11,12,13]
   }
 
   return (
@@ -89,7 +89,9 @@ const MyCart = () => {
                     <td>{item.quantity}</td>
                     <th>{item.total}</th>
                     <td>
-                        <button onClick={() =>handleClickMovementDelete(item)}>Delete</button>
+                      <button onClick={() => handleClickMovementDelete(item)}>
+                        Delete
+                      </button>
                     </td>
                   </tr>
                 </>
