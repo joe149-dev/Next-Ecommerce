@@ -37,12 +37,10 @@ const ProductDetail = () => {
   };
 
   const handleClickAddBasket = () => {
-    console.log("handleClickAddBasket");
     setAddBasket({ productId: product.row.id, quantity: 1 });
   };
 
   const handleClickAddFavorite = () => {
-    console.log("handleClickAddFavorite");
     setFavorite({ productId: product.row.id });
   };
 
@@ -192,7 +190,7 @@ const ProductDetail = () => {
                   <div className="flex ml-6 items-center">
                     <span className="mr-3">Size</span>
                     <div className="relative">
-                      <select className="rounded border appearance-none border-gray-400 py-2 focus:outline-none focus:border-red-500 text-base pl-3 pr-10">
+                      <select className="rounded border appearance-none text-white border-gray-400 py-2 focus:outline-none focus:border-red-500 text-base pl-3 pr-10">
                         {selectedColor.map((item: any, index: number) => {
                           return (<>
                          <option key={index}>{item.title}</option>
