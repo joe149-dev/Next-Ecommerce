@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import * as Yup from "yup";
 import { useGetBasketCampaignsQuery } from "@/services/campaign";
+import Image from "next/image";
 
 const ViewCart = () => {
   const [setUseCoupon, resultCoupon] = useSetUseCouponMutation();
@@ -97,10 +98,10 @@ const ViewCart = () => {
                           <div className="flex items-center gap-3">
                             <div className="avatar">
                               <div className="mask mask-squircle w-12 h-12">
-                                <img
-                                  src="/tailwind-css-component-profile-2@56w.png"
-                                  alt="Avatar Tailwind CSS Component"
-                                />
+                                <Image src={"https://www.whitmorerarebooks.com/pictures/medium/2465.jpg"}
+                                width={100}
+                                height={100}
+                                  alt="Avatar Tailwind CSS Component"/>
                               </div>
                             </div>
                             <div>
@@ -177,7 +178,10 @@ const ViewCart = () => {
                         {basket.basket.reduce(
                           (acc: number, o: any) => acc + parseFloat(o.total),
                           0
-                        ) - resultCoupon.data?.data?.price ?? 0}
+                        ) - (Number(resultCoupon.data?.data?.price ?? 0) + Number(basketCampaigns.list.reduce(
+                          (acc: number, o: any) => acc + parseFloat(o.price),
+                          0
+                        )))}
                       </td>
                     </tr>
                   </>

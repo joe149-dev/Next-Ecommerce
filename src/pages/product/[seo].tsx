@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 import {
   useGetProductDetailQuery,
   useSetAddBasketMutation,
   useSetRatingMutation,
 } from "@/services/product";
+import Image from "next/image";
+import { useSetFavoriteMutation } from "@/services/favorite";
 
 const ProductDetail = () => {
   const [setRating] = useSetRatingMutation();
   const [setAddBasket] = useSetAddBasketMutation();
+  const [setFavorite] = useSetFavoriteMutation();
   const router = useRouter();
 
   const {
@@ -16,6 +19,8 @@ const ProductDetail = () => {
     isLoading,
     isSuccess,
   } = useGetProductDetailQuery(`product/${router.query.seo}`);
+
+  const [selectedColor, setSelectedColor] = useState([])
 
   const handleRating = (rating: number) => {
     setRating({
@@ -32,8 +37,21 @@ const ProductDetail = () => {
   };
 
   const handleClickAddBasket = () => {
-    console.log('handleClickAddBasket');
-    setAddBasket({ productId: product.row.id, quantity: 1 })
+    console.log("handleClickAddBasket");
+    setAddBasket({ productId: product.row.id, quantity: 1 });
+  };
+
+  const handleClickAddFavorite = () => {
+    console.log("handleClickAddFavorite");
+    setFavorite({ productId: product.row.id });
+  };
+
+  const handleClickSelectedColor = (item: any) => {
+    setSelectedColor(product.row.variation
+      .filter((l: any) => l.variation_id === item.id)
+      .map((l: any) => {
+        return l
+      }))
   }
 
   return (
@@ -43,10 +61,14 @@ const ProductDetail = () => {
         <section className="text-gray-700 body-font overflow-hidden bg-white">
           <div className="container px-5 py-24 mx-auto">
             <div className="lg:w-4/5 mx-auto flex flex-wrap">
-              <img
+              <Image
                 alt="ecommerce"
+                width={500}
+                height={500}
                 className="lg:w-1/2 w-full object-cover object-center rounded border border-gray-200"
-                src="https://www.whitmorerarebooks.com/pictures/medium/2465.jpg"
+                src={
+                  "https://www.whitmorerarebooks.com/pictures/medium/2465.jpg"
+                }
               />
               <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
                 <h2 className="text-sm title-font text-gray-500 tracking-widest">
@@ -142,32 +164,41 @@ const ProductDetail = () => {
                 <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-200 mb-5">
                   <div className="flex">
                     <span className="mr-3">Color</span>
-                    <button className="border-2 border-gray-300 rounded-full w-6 h-6 focus:outline-none"></button>
-                    <button className="border-2 border-gray-300 ml-1 bg-gray-700 rounded-full w-6 h-6 focus:outline-none"></button>
-                    <button className="border-2 border-gray-300 ml-1 bg-red-500 rounded-full w-6 h-6 focus:outline-none"></button>
+                    {product.row.variation
+                      .filter((k: any) => k.variation_id === null)
+                      .map((k: any, i: number) => {
+                        return product.row.variation
+                          .filter((t: any) => t.variation_id === k.id)
+                          .map((t: any, i: number) => {
+                            return (
+                              <>
+                                <button
+                                  onClick={() => handleClickSelectedColor(t)}
+                                  className={`border-2 mx-1 border-gray-600 
+                                bg-${
+                                  t.seo === "beyaz"
+                                    ? "white"
+                                    : t.seo === "kirmizi"
+                                    ? "red"
+                                    : "pink"
+                                }-500 
+                                rounded-full w-6 h-6 focus:outline-none`}
+                                ></button>
+                              </>
+                            );
+                          });
+                      })}
                   </div>
                   <div className="flex ml-6 items-center">
                     <span className="mr-3">Size</span>
                     <div className="relative">
                       <select className="rounded border appearance-none border-gray-400 py-2 focus:outline-none focus:border-red-500 text-base pl-3 pr-10">
-                        <option>SM</option>
-                        <option>M</option>
-                        <option>L</option>
-                        <option>XL</option>
+                        {selectedColor.map((item: any, index: number) => {
+                          return (<>
+                         <option key={index}>{item.title}</option>
+                          </>)
+                        })}
                       </select>
-                      <span className="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
-                        <svg
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          className="w-4 h-4"
-                          viewBox="0 0 24 24"
-                        >
-                          <path d="M6 9l6 6 6-6"></path>
-                        </svg>
-                      </span>
                     </div>
                   </div>
                 </div>
@@ -178,12 +209,18 @@ const ProductDetail = () => {
                     </span>
                     {product.row.price.discountPrice}
                   </span>
-                  <button className="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded"
-                  onClick={handleClickAddBasket}
+                  <button
+                    className="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded"
+                    onClick={handleClickAddBasket}
                   >
                     Add Basket
                   </button>
-                  <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
+                  <button
+                    onClick={handleClickAddFavorite}
+                    className={`rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-${
+                      product.favorite ? "red" : "gray"
+                    }-500 ml-4`}
+                  >
                     <svg
                       fill="currentColor"
                       stroke-linecap="round"
