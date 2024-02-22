@@ -20,7 +20,7 @@ const ProductDetail = () => {
     isSuccess,
   } = useGetProductDetailQuery(`product/${router.query.seo}`);
 
-  const [selectedColor, setSelectedColor] = useState([])
+  const [selectedColor, setSelectedColor] = useState([]);
 
   const handleRating = (rating: number) => {
     setRating({
@@ -31,8 +31,8 @@ const ProductDetail = () => {
 
   const ratingAverage = () => {
     return (
-      product.row.rating.reduce((acc: any, o: any) => acc + o.rating, 0) /
-      product.row.rating.length
+      product.row.ratings?.reduce((acc: any, o: any) => acc + o.rating, 0) /
+        product.row.ratings?.length ?? 0
     );
   };
 
@@ -45,12 +45,14 @@ const ProductDetail = () => {
   };
 
   const handleClickSelectedColor = (item: any) => {
-    setSelectedColor(product.row.variation
-      .filter((l: any) => l.variation_id === item.id)
-      .map((l: any) => {
-        return l
-      }))
-  }
+    setSelectedColor(
+      product.row.variations
+        .filter((l: any) => l.variation_id === item.id)
+        .map((l: any) => {
+          return l;
+        })
+    );
+  };
 
   return (
     <>
@@ -116,7 +118,7 @@ const ProductDetail = () => {
                     })}
 
                     <span className="text-gray-600 ml-3">
-                      {product.row.rating.length} Reviews
+                      {product.row.ratings?.length ?? 0} Reviews
                     </span>
                   </span>
                   <span className="flex ml-3 pl-3 py-2 border-l-2 border-gray-200">
@@ -162,15 +164,18 @@ const ProductDetail = () => {
                 <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-200 mb-5">
                   <div className="flex">
                     <span className="mr-3">Color</span>
-                    {product.row.variation
-                      .filter((k: any) => k.variation_id === null)
+                    {product.row.variations
+                      ?.filter((k: any) => k.variation_id === null)
                       .map((k: any, i: number) => {
-                        return product.row.variation
+                        console.log("variation >> ", k);
+
+                        return product.row.variations
                           .filter((t: any) => t.variation_id === k.id)
                           .map((t: any, i: number) => {
                             return (
                               <>
                                 <button
+                                  key={i}
                                   onClick={() => handleClickSelectedColor(t)}
                                   className={`border-2 mx-1 border-gray-600 
                                 bg-${
@@ -192,9 +197,11 @@ const ProductDetail = () => {
                     <div className="relative">
                       <select className="rounded border appearance-none text-white border-gray-400 py-2 focus:outline-none focus:border-red-500 text-base pl-3 pr-10">
                         {selectedColor.map((item: any, index: number) => {
-                          return (<>
-                         <option key={index}>{item.title}</option>
-                          </>)
+                          return (
+                            <>
+                              <option key={index}>{item.title}</option>
+                            </>
+                          );
                         })}
                       </select>
                     </div>
@@ -203,9 +210,9 @@ const ProductDetail = () => {
                 <div className="flex">
                   <span className="title-font font-medium text-2xl text-gray-900">
                     <span className="line-through text-black/50 px-3 text-3xl">
-                      {product.row.price.price}
+                      {product.row.price?.price ?? 0}
                     </span>
-                    {product.row.price.discountPrice}
+                    {product.row.price?.discountPrice ?? 0}
                   </span>
                   <button
                     className="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded"
