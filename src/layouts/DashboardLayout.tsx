@@ -12,18 +12,7 @@ interface Props {
 const DashboardLayout: React.FC<Props> = ({children}) => {
     return (
         <div className={`min-h-screen ${inter.className}`}>
-            <div className="flex">
-                <div className="flex-none xl:w-80 md:w-60">
-                    Menu
-                </div>
-                <div className="flex-grow">
-                    <Header/>
-                    <div className="w-full p-10">
-                        {children}
-                    </div>
-                    <Footer/>
-                </div>
-            </div>
+           {children}
         </div>
     );
 }

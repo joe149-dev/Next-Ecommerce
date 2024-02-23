@@ -7,6 +7,7 @@ export const favoriteApi = createApi({
         baseUrl: base.base,
         prepareHeaders: (headers, { getState, endpoint }) => {
             const token = localStorage.getItem('token') as string
+            console.log('prepareHeaders >> token ', token);
 
             if (token !== '') {
                 headers.set('Authorization', `Bearer ${token}`)
@@ -27,7 +28,7 @@ export const favoriteApi = createApi({
                     const { data } = await queryFulfilled;
                     //dispatch(setBasket(data.basket))
                 } catch (error) {
-                    console.log(error);
+                    console.log('setFavorite error >> ',error);
                 }
             }
         }),

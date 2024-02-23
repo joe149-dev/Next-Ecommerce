@@ -30,6 +30,8 @@ export const loginApi = createApi({
                     dispatch(setUser(data.user))
                     dispatch(setBasket(data.basket))
                 } catch (error) {
+                    console.log('ME >> ', error);
+                    localStorage.removeItem('token')
                 }
             }
         }),
@@ -39,7 +41,7 @@ export const loginApi = createApi({
                 method: 'POST',
                 body,
             }),
-            transformResponse: (result: { token: string }) => result,
+            transformResponse: (result: { token: string, user: any }) => result,
             async onQueryStarted(_args, { dispatch, queryFulfilled }) {
                 try {
                     const { data } = await queryFulfilled;
