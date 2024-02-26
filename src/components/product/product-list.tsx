@@ -68,9 +68,9 @@ const ProductList = () => {
                       </div>
                     </td>
                     <td>{item.description}</td>
-                    <td>{item.price.price}</td>
-                    <td>{item.price.discountPrice}</td>
-                    <td>{item.price.discountRate}</td>
+                    <td>{item.price?.price}</td>
+                    <td>{item.price?.discountPrice}</td>
+                    <td>{item.price?.discountRate}</td>
                     <td>{item.tax}</td>
                     <td>
                       {moment(item.updatedAt).format("DD.MM.YYYY")}{" "}

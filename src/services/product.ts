@@ -21,6 +21,40 @@ export const productApi = createApi({
         getProductDetail: builder.query<any, string>({
             query: (url) => `${url}`
         }),
+        setProductDetail: builder.mutation({
+            query: (body) => ({
+                url: '/product/detail',
+                method: 'PUT',
+                body,
+            }),
+            transformResponse: (result: { token: string }) => result,
+            async onQueryStarted(_args, { dispatch, queryFulfilled }) {
+                try {
+                    const { data } = await queryFulfilled;
+                    console.log(data);
+                    
+                    // dispatch(setToken(data.token))
+                } catch (error) {
+                }
+            }
+        }),
+        newProduct: builder.mutation({
+            query: (body) => ({
+                url: '/product',
+                method: 'POST',
+                body,
+            }),
+            transformResponse: (result: { token: string }) => result,
+            async onQueryStarted(_args, { dispatch, queryFulfilled }) {
+                try {
+                    const { data } = await queryFulfilled;
+                    console.log(data);
+                    
+                    // dispatch(setToken(data.token))
+                } catch (error) {
+                }
+            }
+        }),
         setRating: builder.mutation({
             query: (body) => ({
                 url: '/rating',
@@ -58,4 +92,4 @@ export const productApi = createApi({
     }),
 })
 
-export const { useGetProductsQuery, useGetProductDetailQuery, useSetRatingMutation, useSetAddBasketMutation } = productApi
+export const { useGetProductsQuery, useGetProductDetailQuery, useSetProductDetailMutation, useNewProductMutation, useSetRatingMutation, useSetAddBasketMutation } = productApi

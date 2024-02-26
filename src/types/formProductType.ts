@@ -1,6 +1,6 @@
 import { PriceType } from "./priceType"
 
-export type ProductType = {
+export type FormProductType = {
     id: number | null
     title: string
     seo: string
@@ -9,6 +9,7 @@ export type ProductType = {
     barcode: string
     associative: string
     tax: string
-    updatedAt: string
-    price: PriceType
+    salePrice: number
+    discountPrice: number
+    discountRate: number
 }
