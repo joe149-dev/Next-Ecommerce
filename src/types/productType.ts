@@ -9,6 +9,7 @@ export type ProductType = {
     barcode: string
     associative: string
     tax: string
+    confirm: boolean
     updatedAt: string
     price: PriceType
 }

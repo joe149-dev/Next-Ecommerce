@@ -8,6 +8,7 @@ import {
   useSetProductDetailMutation,
 } from "@/services/product";
 import { FormProductType } from "@/types/formProductType";
+import { useGetCategoryQuery } from "@/services/category";
 
 interface Props {
   seo: string | undefined;
@@ -20,9 +21,12 @@ const ProductDetail = ({ seo }: Props) => {
     isSuccess,
   } = useGetProductDetailQuery(`product/${seo}`);
 
+  const { data: categories } = useGetCategoryQuery("");
+
   const [setProductDetail, result] = useSetProductDetailMutation();
-  const [newProduct] = useNewProductMutation()
+  const [newProduct] = useNewProductMutation();
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
       title: "",
       seo: "",
@@ -31,6 +35,7 @@ const ProductDetail = ({ seo }: Props) => {
       barcode: "",
       associative: "",
       tax: "",
+      confirm: true,
       salePrice: 0,
       discountPrice: 0,
       discountRate: 0,
@@ -44,8 +49,8 @@ const ProductDetail = ({ seo }: Props) => {
     onSubmit: (values) => {
       console.log(values);
 
-      if (seo === "") newProduct(values)
-      if (seo !== "") setProductDetail(values)
+      if (seo === "") newProduct(values);
+      if (seo !== "") setProductDetail(values);
     },
   });
 
@@ -60,6 +65,7 @@ const ProductDetail = ({ seo }: Props) => {
         barcode: product.row?.barcode,
         stockCode: product.row?.stockCode,
         tax: product.row?.tax,
+        confirm: product.row?.confirm,
         salePrice: product.row?.price?.price,
         discountPrice: product.row?.price?.discountPrice,
         discountRate: product.row?.price?.discountRate,
@@ -319,6 +325,52 @@ const ProductDetail = ({ seo }: Props) => {
               {formik.errors.discountRate}
             </div>
           ) : null}
+        </div>
+        <div className="w-1/4 px-2 py-4">
+          <label
+            htmlFor="confirm"
+            className="block text-sm font-medium text-gray-700"
+          >
+            tax
+          </label>
+          <div className="mt-1">
+            <input
+              id="confirm"
+              name="confirm"
+              type="checkbox"
+              autoComplete="confirm"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.confirm === true ? "false" : "true"}
+            />
+          </div>
+          {formik.touched.confirm && formik.errors.confirm ? (
+            <div className="block text-sm font-medium text-red-700">
+              {formik.errors.confirm}
+            </div>
+          ) : null}
+        </div>
+        <div className="w-1/4 px-2 py-4">
+          <label
+            htmlFor="category"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Category
+          </label>
+          <div className="mt-1 inline-flex">
+            <select className="items-end rounded border appearance-none text-white border-gray-400 py-2 focus:outline-none focus:border-red-500 text-base pl-3 pr-10">
+              <option>Seçiniz...</option>
+              {categories?.list?.map((k: any, i: number) => {
+                return <option key={i}>{k.title}</option>;
+              })}
+            </select>
+            <button
+              type="button"
+              className="w-full mx-1 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              Save
+            </button>
+          </div>
         </div>
       </div>
 

@@ -9,6 +9,7 @@ export type FormProductType = {
     barcode: string
     associative: string
     tax: string
+    confirm: boolean
     salePrice: number
     discountPrice: number
     discountRate: number

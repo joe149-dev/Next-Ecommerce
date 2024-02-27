@@ -10,7 +10,7 @@ const ProductList = () => {
     data: products,
     isLoading,
     isSuccess,
-  } = useGetProductsQuery("product");
+  } = useGetProductsQuery("product/dashboard-products");
 
   const router = useRouter();
  
@@ -72,6 +72,7 @@ const ProductList = () => {
                     <td>{item.price?.discountPrice}</td>
                     <td>{item.price?.discountRate}</td>
                     <td>{item.tax}</td>
+                    <td>{item.confirm ? "true" : "false"}</td>
                     <td>
                       {moment(item.updatedAt).format("DD.MM.YYYY")}{" "}
                       <span className="text-sm">
