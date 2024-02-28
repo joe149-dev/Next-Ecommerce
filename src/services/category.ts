@@ -18,7 +18,23 @@ export const categoryApi = createApi({
         getCategory: builder.query<any, string>({
             query: () => `/category`
         }),
+        setCategory: builder.mutation({
+            query: (body) => ({
+                url: '/product-category/add-product-category',
+                method: 'POST',
+                body
+            }),
+            transformResponse: (result: { data: any }) => result,
+            async onQueryStarted(_args, { dispatch, queryFulfilled }) {
+                try {
+                    const { data } = await queryFulfilled;
+                    //dispatch(setBasket(data.basket))
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        }),
     }),
 })
 
-export const { useGetCategoryQuery } = categoryApi
+export const { useGetCategoryQuery, useSetCategoryMutation } = categoryApi

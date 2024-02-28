@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { ProductType } from "@/types/productType";
@@ -8,7 +8,10 @@ import {
   useSetProductDetailMutation,
 } from "@/services/product";
 import { FormProductType } from "@/types/formProductType";
-import { useGetCategoryQuery } from "@/services/category";
+import {
+  useGetCategoryQuery,
+  useSetCategoryMutation,
+} from "@/services/category";
 
 interface Props {
   seo: string | undefined;
@@ -25,6 +28,12 @@ const ProductDetail = ({ seo }: Props) => {
 
   const [setProductDetail, result] = useSetProductDetailMutation();
   const [newProduct] = useNewProductMutation();
+  const [setCategory] = useSetCategoryMutation();
+
+  const inputRef = useRef<HTMLSelectElement | null>(null);
+
+  const [selectedCategory, setSelectedCategory] = useState<number[]>([]);
+
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -70,8 +79,36 @@ const ProductDetail = ({ seo }: Props) => {
         discountPrice: product.row?.price?.discountPrice,
         discountRate: product.row?.price?.discountRate,
       } as FormProductType);
+      setSelectedCategory(product.row?.productCategory.map((k: any)=> {
+        return k.category_id
+      }))
     }
   }, [isSuccess]);
+
+  const handleAddCategory = () => {
+    const selectedCategoryId = parseInt(inputRef.current?.value ?? "-1");
+
+    if (selectedCategoryId > 0) {
+      const selected = selectedCategory.find(
+        (c: number) => c === selectedCategoryId
+      );
+
+      if (selected === undefined)
+        setSelectedCategory([...selectedCategory, selectedCategoryId]);
+    }
+  };
+
+  const handleRemoveCategory = (item: any) => {
+    const selected = selectedCategory.filter((c: number) => c !== item.id);
+    setSelectedCategory(selected);
+  };
+
+  useEffect(() => {
+      setCategory({
+        categories: selectedCategory ?? [],
+        productId: isSuccess ? product.row?.id : 0,
+      });
+  }, [selectedCategory]);
 
   return (
     <form className="space-y-6" onSubmit={formik.handleSubmit}>
@@ -357,19 +394,43 @@ const ProductDetail = ({ seo }: Props) => {
           >
             Category
           </label>
-          <div className="mt-1 inline-flex">
-            <select className="items-end rounded border appearance-none text-white border-gray-400 py-2 focus:outline-none focus:border-red-500 text-base pl-3 pr-10">
-              <option>Seçiniz...</option>
+          <div className="mt-1 inline-flex justify-between">
+            <select
+              ref={inputRef}
+              className="items-end rounded border appearance-none text-white border-gray-400 py-2 focus:outline-none focus:border-red-500 text-base pl-3 pr-10"
+            >
+              <option value={-1}>Seçiniz...</option>
               {categories?.list?.map((k: any, i: number) => {
-                return <option key={i}>{k.title}</option>;
+                return (
+                  <option key={i} value={k.id}>
+                    {k.title}
+                  </option>
+                );
               })}
             </select>
             <button
+              onClick={handleAddCategory}
               type="button"
               className="w-full mx-1 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               Save
             </button>
+            <span>
+              {categories?.list
+                ?.filter((k: any) => selectedCategory.includes(k.id))
+                .map((item: any, i: number) => {
+                  return (
+                    <span
+                      onClick={() => handleRemoveCategory(item)}
+                      key={i}
+                      className="mx-2"
+                      role="button"
+                    >
+                      {item.title}
+                    </span>
+                  );
+                })}
+            </span>
           </div>
         </div>
       </div>
