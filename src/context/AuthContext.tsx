@@ -1,5 +1,6 @@
 // ** React Imports
 import { useGetMeQuery } from '@/services/auth'
+import { useGetMenuQuery } from '@/services/menu'
 import { createContext, useEffect, useState, ReactNode } from 'react'
 
 // ** Defaults

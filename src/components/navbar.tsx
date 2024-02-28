@@ -1,3 +1,4 @@
+import { useGetMenuQuery } from "@/services/menu";
 import { RootState } from "@/store";
 import Link from "next/link";
 import React from "react";
@@ -7,6 +8,7 @@ const Navbar = () => {
   // ** Selector **
   const user: any = useSelector((state: RootState) => state.userState);
   const basket: any = useSelector((state: RootState) => state.basketState);
+  const { data: menu, isSuccess } = useGetMenuQuery("");
 
   return (
     <>
@@ -56,7 +58,17 @@ const Navbar = () => {
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
-            <li>
+            {isSuccess &&
+              menu.list
+                ?.filter((k: any) => k.menu_id === null)
+                .map((item: any, index: number) => {
+                  return (
+                    <li key={index}>
+                      <a>Item 1</a>
+                    </li>
+                  );
+                })}
+            {/* <li>
               <a>Item 1</a>
             </li>
             <li>
@@ -74,7 +86,7 @@ const Navbar = () => {
             </li>
             <li>
               <a>Item 3</a>
-            </li>
+            </li> */}
           </ul>
         </div>
         <div className="navbar-end">
