@@ -60,13 +60,37 @@ const Navbar = () => {
           <ul className="menu menu-horizontal px-1">
             {isSuccess &&
               menu.list
-                ?.filter((k: any) => k.menu_id === null)
+                ?.filter((k: any) => k.menuId === null)
                 .map((item: any, index: number) => {
-                  return (
-                    <li key={index}>
-                      <a>Item 1</a>
-                    </li>
+                  const subMenu = menu.list.filter(
+                    (t: any) => t.menuId === item.id
                   );
+                  if (subMenu.length > 0) {
+                    return (
+                      <li key={index}>
+                        <details>
+                          <summary>{item.title}</summary>
+                          <ul className="p-2">
+                            {subMenu.map((subItem: any, index: number) => {
+                              return (
+                                <li key={index}>
+                                  <Link href={subItem.seo}>
+                                    {subItem.title}
+                                  </Link>
+                                </li>
+                              );
+                            })}
+                          </ul>
+                        </details>
+                      </li>
+                    );
+                  } else {
+                    return (
+                      <li key={index}>
+                        <Link href={item.seo}>{item.title}</Link>
+                      </li>
+                    );
+                  }
                 })}
             {/* <li>
               <a>Item 1</a>
