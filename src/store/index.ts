@@ -16,6 +16,7 @@ import { campaignApi } from "../services/campaign"
 import { favoriteApi } from "../services/favorite"
 import { categoryApi } from "../services/category"
 import { menuApi } from "../services/menu"
+import { contentApi } from "../services/content"
 
 export const store = configureStore({
     reducer: {
@@ -32,7 +33,8 @@ export const store = configureStore({
         [campaignApi.reducerPath]: campaignApi.reducer,
         [favoriteApi.reducerPath]: favoriteApi.reducer,
         [categoryApi.reducerPath]: categoryApi.reducer,
-        [menuApi.reducerPath]: menuApi.reducer
+        [menuApi.reducerPath]: menuApi.reducer,
+        [contentApi.reducerPath]: contentApi.reducer
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat(
@@ -46,6 +48,7 @@ export const store = configureStore({
             favoriteApi.middleware,
             categoryApi.middleware,
             menuApi.middleware,
+            contentApi.middleware,
         ),
 })
 

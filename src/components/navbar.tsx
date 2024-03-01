@@ -35,7 +35,39 @@ const Navbar = () => {
               tabIndex={0}
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
-              <li>
+              {isSuccess &&
+              menu.list
+                ?.filter((k: any) => k.menuId === null)
+                .map((item: any, index: number) => {
+                  const subMenu = menu.list.filter(
+                    (t: any) => t.menuId === item.id
+                  );
+                  if (subMenu.length > 0) {
+                    return (
+                      <li key={index}>
+                          <a>{item.title}</a>
+                          <ul className="p-2">
+                            {subMenu.map((subItem: any, index: number) => {
+                              return (
+                                <li key={index}>
+                                  <Link href={subItem.seo}>
+                                    {subItem.title}
+                                  </Link>
+                                </li>
+                              );
+                            })}
+                          </ul>
+                      </li>
+                    );
+                  } else {
+                    return (
+                      <li key={index}>
+                        <Link href={item.seo}>{item.title}</Link>
+                      </li>
+                    );
+                  }
+                })}
+              {/* <li>
                 <a>Item 1</a>
               </li>
               <li>
@@ -51,7 +83,7 @@ const Navbar = () => {
               </li>
               <li>
                 <a>Item 3</a>
-              </li>
+              </li> */}
             </ul>
           </div>
           <a className="btn btn-ghost text-xl">daisyUI</a>
