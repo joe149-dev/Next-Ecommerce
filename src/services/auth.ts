@@ -50,7 +50,22 @@ export const loginApi = createApi({
                 }
             }
         }),
+        register: builder.mutation({
+            query: (body) => ({
+                url: '/auth/sign-up',
+                method: 'POST',
+                body,
+            }),
+            transformResponse: (result: { token: string, user: any }) => result,
+            async onQueryStarted(_args, { dispatch, queryFulfilled }) {
+                try {
+                    const { data } = await queryFulfilled;
+                    //dispatch(setToken(data.token))
+                } catch (error) {
+                }
+            }
+        }),
     }),
 })
 
-export const { useGetIsLoginQuery, useGetMeQuery, useLoginMutation } = loginApi
+export const { useGetIsLoginQuery, useGetMeQuery, useLoginMutation, useRegisterMutation } = loginApi
