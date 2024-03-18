@@ -7,11 +7,14 @@ import { AuthProvider } from "@/context/AuthContext";
 import Head from "next/head";
 import { Provider } from "react-redux";
 import { store } from "@/store";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function MyApp({ Component, pageProps }: MyAppProps) {
   const Layout = Layouts[Component.Layout] || FullLayout; // ?? ((page) => page)
   return (
     <>
+      <ToastContainer />
       <Provider store={store}>
         <AuthProvider>
           <Head>

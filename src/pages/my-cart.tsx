@@ -1,5 +1,6 @@
 import { useRemoveBasketMutation } from "@/services/basket";
 import { RootState } from "@/store";
+import Image from "next/image";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -86,9 +87,11 @@ const MyCart = () => {
                     <div className="flex items-center gap-3">
                       <div className="avatar">
                         <div className="mask mask-squircle w-12 h-12">
-                          <img
+                          <Image
                             src="/tailwind-css-component-profile-2@56w.png"
                             alt="Avatar Tailwind CSS Component"
+                            width={100}
+                            height={100}
                           />
                         </div>
                       </div>

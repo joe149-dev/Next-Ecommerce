@@ -22,11 +22,12 @@ const ProductDetail = () => {
 
   const [selectedColor, setSelectedColor] = useState([]);
 
-  const handleRating = (rating: number) => {
-    setRating({
+  const handleRating = async (rating: number) => {
+    await setRating({
       productId: product.row.id,
       rating,
     });
+    router.reload()
   };
 
   const ratingAverage = () => {
@@ -36,12 +37,14 @@ const ProductDetail = () => {
     );
   };
 
-  const handleClickAddBasket = () => {
-    setAddBasket({ productId: product.row.id, quantity: 1 });
+  const handleClickAddBasket = async () => {
+    await setAddBasket({ productId: product.row.id, quantity: 1 });
+    router.reload()
   };
 
-  const handleClickAddFavorite = () => {
-    setFavorite({ productId: product.row.id });
+  const handleClickAddFavorite = async () => {
+    await setFavorite({ productId: product.row.id });
+    router.reload()
   };
 
   const handleClickSelectedColor = (item: any) => {
@@ -177,15 +180,13 @@ const ProductDetail = () => {
                                 <button
                                   key={i}
                                   onClick={() => handleClickSelectedColor(t)}
-                                  className={`border-2 mx-1 border-gray-600 
-                                bg-${
+                                  className={`border-2 mx-1 border-gray-600 ${
                                   t.seo === "beyaz"
-                                    ? "white"
-                                    : t.seo === "kirmizi"
-                                    ? "red"
-                                    : "pink"
-                                }-500 
-                                rounded-full w-6 h-6 focus:outline-none`}
+                                    ? "bg-white-100"
+                                    : (t.seo === "kirmizi"
+                                    ? "bg-red-700"
+                                    : "bg-amber-600")
+                                } rounded-full w-6 h-6 focus:outline-none`}
                                 ></button>
                               </>
                             );

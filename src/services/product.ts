@@ -1,5 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { base } from '@/configs/route/base'
+import { toast } from "react-toastify";
+import { useGetMeQuery } from './auth';
 
 export const productApi = createApi({
     reducerPath: 'productApi',
@@ -82,8 +84,7 @@ export const productApi = createApi({
             async onQueryStarted(_args, { dispatch, queryFulfilled }) {
                 try {
                     const { data } = await queryFulfilled;
-                    console.log(data);
-                    
+                    toast.success("Success Add Basket!");
                     // dispatch(setToken(data.token))
                 } catch (error) {
                 }

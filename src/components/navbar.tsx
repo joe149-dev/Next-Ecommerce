@@ -1,14 +1,23 @@
 import { useGetMenuQuery } from "@/services/menu";
 import { RootState } from "@/store";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { useSelector } from "react-redux";
+import { useAuth } from "@/hooks/useAuth";
 
 const Navbar = () => {
   // ** Selector **
-  const user: any = useSelector((state: RootState) => state.userState);
+  const { user, isLogin, role } = useSelector(
+    (state: RootState) => state.userState
+  );
   const basket: any = useSelector((state: RootState) => state.basketState);
   const { data: menu, isSuccess } = useGetMenuQuery("");
+
+  const { logout } = useAuth();
+  const handleLogout = () => {
+    logout();
+  };
 
   return (
     <>
@@ -35,16 +44,22 @@ const Navbar = () => {
               tabIndex={0}
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
+              {isSuccess && role === "admin" && (
+                <li>
+                  <Link href="/dashboard/products">Products</Link>
+                </li>
+              )}
               {isSuccess &&
-              menu.list
-                ?.filter((k: any) => k.menuId === null)
-                .map((item: any, index: number) => {
-                  const subMenu = menu.list.filter(
-                    (t: any) => t.menuId === item.id
-                  );
-                  if (subMenu.length > 0) {
-                    return (
-                      <li key={index}>
+                (role === "" || role === "user") &&
+                menu.list
+                  ?.filter((k: any) => k.menuId === null)
+                  .map((item: any, index: number) => {
+                    const subMenu = menu.list.filter(
+                      (t: any) => t.menuId === item.id
+                    );
+                    if (subMenu.length > 0) {
+                      return (
+                        <li key={index}>
                           <a>{item.title}</a>
                           <ul className="p-2">
                             {subMenu.map((subItem: any, index: number) => {
@@ -57,16 +72,16 @@ const Navbar = () => {
                               );
                             })}
                           </ul>
-                      </li>
-                    );
-                  } else {
-                    return (
-                      <li key={index}>
-                        <Link href={item.seo}>{item.title}</Link>
-                      </li>
-                    );
-                  }
-                })}
+                        </li>
+                      );
+                    } else {
+                      return (
+                        <li key={index}>
+                          <Link href={item.seo}>{item.title}</Link>
+                        </li>
+                      );
+                    }
+                  })}
               {/* <li>
                 <a>Item 1</a>
               </li>
@@ -86,11 +101,24 @@ const Navbar = () => {
               </li> */}
             </ul>
           </div>
-          <a className="btn btn-ghost text-xl">daisyUI</a>
+          <Link href="/" className="btn btn-ghost text-xl">
+            HomePage
+          </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
+            {isSuccess && role === "admin" && (
+              <>
+                <li>
+                  <Link href="/dashboard/products">Products</Link>
+                </li>
+                <li>
+                  <Link href="/dashboard/orders">Orders</Link>
+                </li>
+              </>
+            )}
             {isSuccess &&
+              (role === "" || role === "user") &&
               menu.list
                 ?.filter((k: any) => k.menuId === null)
                 .map((item: any, index: number) => {
@@ -200,9 +228,11 @@ const Navbar = () => {
               className="btn btn-ghost btn-circle avatar"
             >
               <div className="w-10 rounded-full">
-                <img
+                <Image
                   alt="Tailwind CSS Navbar component"
                   src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                  width={100}
+                  height={100}
                 />
               </div>
             </div>
@@ -210,9 +240,11 @@ const Navbar = () => {
               tabIndex={0}
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
-              <li>
-                <a className="justify-between">{user.user.name}</a>
-              </li>
+              {isLogin && (
+                <li>
+                  <a className="justify-between">{user.name}</a>
+                </li>
+              )}
               <li>
                 <Link href="/my-cart">My Cart</Link>
               </li>
@@ -220,7 +252,11 @@ const Navbar = () => {
                 <Link href="/my-orders">My Orders</Link>
               </li>
               <li>
-                <a>Logout</a>
+                {isLogin ? (
+                  <button onClick={handleLogout}>Logout</button>
+                ) : (
+                  <Link href="/auth/sign-in">Login</Link>
+                )}
               </li>
             </ul>
           </div>

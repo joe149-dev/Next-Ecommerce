@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import { useLoginMutation } from "@/services/auth";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import {toast} from "react-toastify";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -33,8 +34,9 @@ const SignIn: LayoutsTypes = () => {
 
   useEffect(() => {
     if (result.isSuccess) {
+      toast.success("Success Sign In !");
       if (result.data.user.role === "admin") {
-        router.push("/dashboard");
+        router.push("/dashboard/products");
       } else {
         router.push("/");
       }

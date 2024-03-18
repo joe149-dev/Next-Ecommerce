@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { base } from '@/configs/route/base'
 import { setBasket } from '@/store/apps/product/basket'
+import { toast } from "react-toastify";
 
 export const basketApi = createApi({
     reducerPath: 'basketApi',
@@ -26,6 +27,7 @@ export const basketApi = createApi({
             async onQueryStarted(_args, { dispatch, queryFulfilled }) {
                 try {
                     const { data } = await queryFulfilled;
+                    toast.success("Success!");
                     dispatch(setBasket(data.basket))
                 } catch (error) {
                     console.log(error);

@@ -1,3 +1,3 @@
 export const base = {
-    base: 'http://localhost:8000/api/v1/'
+    base: 'http://localhost:3050/api/v1/'
 };

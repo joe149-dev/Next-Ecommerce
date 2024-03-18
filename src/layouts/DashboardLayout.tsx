@@ -12,7 +12,10 @@ interface Props {
 const DashboardLayout: React.FC<Props> = ({children}) => {
     return (
         <div className={`min-h-screen ${inter.className}`}>
-           {children}
+           <Header/>
+            <div className="w-full p-10">
+                {children}
+            </div>
         </div>
     );
 }
