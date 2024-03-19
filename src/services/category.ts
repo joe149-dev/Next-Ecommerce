@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { base } from '@/configs/route/base'
+import { toast } from "react-toastify";
 
 export const categoryApi = createApi({
     reducerPath: 'categoryApi',
@@ -31,9 +32,9 @@ export const categoryApi = createApi({
             async onQueryStarted(_args, { dispatch, queryFulfilled }) {
                 try {
                     const { data } = await queryFulfilled;
-                    //dispatch(setBasket(data.basket))
+                    toast.success("Success");
                 } catch (error) {
-                    console.log(error);
+                    toast.error("Error");
                 }
             }
         }),

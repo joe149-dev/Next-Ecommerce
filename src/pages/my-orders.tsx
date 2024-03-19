@@ -15,8 +15,9 @@ const MyOrders = () => {
         <>
           {result.data.list
             .filter((k: any) => k.movementId === null)
-            .sort((a: any, b: any) => (b?.id >= a?.id) ? 1 : -1)
+            .sort((a: any, b: any) => (b?.id >= a?.id ? 1 : -1))
             .map((item: any, index: number) => {
+              const desSplit = item.description.split("|");
               return (
                 <>
                   <div className="p-5" key={index}>
@@ -24,8 +25,17 @@ const MyOrders = () => {
                       <div className="card-body">
                         <h2 className="card-title justify-between">
                           <span>Sipariş ({item.id})</span>
-                          <span>{moment(item.updatedAt).format('DD.MM.YYYY')} <span className="text-sm">{moment(item.updatedAt).format('HH:mm')}</span></span>
-                          <span>{item.description}</span>
+                          <span>
+                            {moment(item.updatedAt).format("DD.MM.YYYY")}{" "}
+                            <span className="text-sm">
+                              {moment(item.updatedAt).format("HH:mm")}
+                            </span>
+                          </span>
+                          <span className="text-sm">
+                            {desSplit[0]}
+                            <br />
+                            {desSplit[desSplit.length - 1]}
+                          </span>
                           <button className="btn">
                             Tutar
                             <div className="badge badge-secondary">
@@ -37,9 +47,14 @@ const MyOrders = () => {
                           .filter((k: any) => k.movementId === item.id)
                           .map((v: any, i: number) => {
                             return (
-                              <div key={i} className="inline-flex justify-between">
+                              <div
+                                key={i}
+                                className="inline-flex justify-between"
+                              >
                                 <span>{v.product.title}</span>
-                                <span>({v.quantity}) {v.total}</span>
+                                <span>
+                                  ({v.quantity}) {v.total}
+                                </span>
                               </div>
                             );
                           })}

@@ -45,7 +45,23 @@ export const movementApi = createApi({
                 }
             }
         }),
+        setOrderEvent: builder.mutation({
+            query: (body) => ({
+                url: '/movement/order-event',
+                method: 'POST',
+                body
+            }),
+            transformResponse: (result: { list: [] }) => result,
+            async onQueryStarted(_args, { dispatch, queryFulfilled }) {
+                try {
+                    const { data } = await queryFulfilled;
+                    //dispatch(setBasket(data.basket))
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        }),
     }),
 })
 
-export const { useGetUserOrdersMutation, useGetUsersOrdersMutation } = movementApi
+export const { useGetUserOrdersMutation, useGetUsersOrdersMutation, useSetOrderEventMutation } = movementApi

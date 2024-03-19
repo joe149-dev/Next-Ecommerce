@@ -368,7 +368,7 @@ const ProductDetail = ({ seo }: Props) => {
             htmlFor="confirm"
             className="block text-sm font-medium text-gray-700"
           >
-            tax
+            confirm
           </label>
           <div className="mt-1">
             <input
@@ -378,7 +378,7 @@ const ProductDetail = ({ seo }: Props) => {
               autoComplete="confirm"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              value={formik.values.confirm === true ? "false" : "true"}
+              checked={formik.values.confirm}
             />
           </div>
           {formik.touched.confirm && formik.errors.confirm ? (

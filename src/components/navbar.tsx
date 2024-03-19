@@ -2,11 +2,14 @@ import { useGetMenuQuery } from "@/services/menu";
 import { RootState } from "@/store";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useAuth } from "@/hooks/useAuth";
+import { useRouter } from "next/router";
 
 const Navbar = () => {
+  const router = useRouter();
+
   // ** Selector **
   const { user, isLogin, role } = useSelector(
     (state: RootState) => state.userState
@@ -44,13 +47,17 @@ const Navbar = () => {
               tabIndex={0}
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
-              {isSuccess && role === "admin" && (
-                <li>
-                  <Link href="/dashboard/products">Products</Link>
-                </li>
+              {isSuccess && role === "admin" && router.pathname.startsWith('/dashboard')  &&(
+                <>
+                  <li>
+                    <Link href="/dashboard/products">Products</Link>
+                  </li>
+                  <li>
+                    <Link href="/dashboard/orders">Orders</Link>
+                  </li>
+                </>
               )}
-              {isSuccess &&
-                (role === "" || role === "user") &&
+              {isSuccess && !router.pathname.startsWith('/dashboard') &&
                 menu.list
                   ?.filter((k: any) => k.menuId === null)
                   .map((item: any, index: number) => {
@@ -107,7 +114,7 @@ const Navbar = () => {
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
-            {isSuccess && role === "admin" && (
+            {isSuccess && role === "admin" && router.pathname.startsWith('/dashboard') && (
               <>
                 <li>
                   <Link href="/dashboard/products">Products</Link>
@@ -117,8 +124,7 @@ const Navbar = () => {
                 </li>
               </>
             )}
-            {isSuccess &&
-              (role === "" || role === "user") &&
+            {isSuccess && !router.pathname.startsWith('/dashboard') &&
               menu.list
                 ?.filter((k: any) => k.menuId === null)
                 .map((item: any, index: number) => {
