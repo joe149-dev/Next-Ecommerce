@@ -252,6 +252,9 @@ const Navbar = () => {
                 </li>
               )}
               <li>
+                <Link href="/my-address">My Address</Link>
+              </li>
+              <li>
                 <Link href="/my-cart">My Cart</Link>
               </li>
               <li>
