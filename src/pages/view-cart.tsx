@@ -33,6 +33,7 @@ const ViewCart = () => {
       cvCode: "000",
       coupon: "",
       campaign: 0,
+      address: ""
     },
     validationSchema: Yup.object({
       cardName: Yup.string()
@@ -59,6 +60,8 @@ const ViewCart = () => {
         (acc: number, o: any) => acc + parseFloat(o.price),
         0
       );
+      formik.values.address = `${userAddress.address.addressLine} ${userAddress.address.town} ${userAddress.address.district}/${userAddress.address.city} `
+
       addPayment(values);
     },
   });

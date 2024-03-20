@@ -18,6 +18,7 @@ const ProductDetail = () => {
     data: product,
     isLoading,
     isSuccess,
+    refetch: abc
   } = useGetProductDetailQuery(`product/${router.query.seo}`);
 
   const [selectedColor, setSelectedColor] = useState([]);
@@ -44,7 +45,8 @@ const ProductDetail = () => {
 
   const handleClickAddFavorite = async () => {
     await setFavorite({ productId: product.row.id });
-    router.reload()
+    abc: true
+    //router.reload()
   };
 
   const handleClickSelectedColor = (item: any) => {
