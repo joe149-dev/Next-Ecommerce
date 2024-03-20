@@ -7,10 +7,14 @@ import { useSelector } from "react-redux";
 import * as Yup from "yup";
 import { useGetBasketCampaignsQuery } from "@/services/campaign";
 import Image from "next/image";
+import { useGetUserAddressQuery } from "@/services/address";
 
 const ViewCart = () => {
   const [setUseCoupon, resultCoupon] = useSetUseCouponMutation();
   const [addPayment, resultPayment] = useAddPaymentMutation();
+
+  const { data: userAddress, isSuccess: userAddressIsSuccess } =
+  useGetUserAddressQuery("/address/user-address");
 
   const { data: basketCampaigns, isSuccess: isSuccessBasketCampaigns } =
     useGetBasketCampaignsQuery("");
@@ -234,6 +238,13 @@ const ViewCart = () => {
             </table>
           </div>
           <div className="w-2/5 p-2">
+            <div>
+              <span>{userAddressIsSuccess && userAddress.address.addressLine}</span>
+              <span className="mx-2">{userAddressIsSuccess && userAddress.address.town}</span>
+              <span className="ml-2">{userAddressIsSuccess && userAddress.address.district}</span>
+              <span>/</span>
+              <span>{userAddressIsSuccess && userAddress.address.city}</span>
+            </div>
             <form className="space-y-6" onSubmit={formik.handleSubmit}>
               <div>
                 <label
