@@ -15,7 +15,7 @@ const Navbar = () => {
     (state: RootState) => state.userState
   );
   const basket: any = useSelector((state: RootState) => state.basketState);
-  const { data: menu, isSuccess } = useGetMenuQuery("");
+  const { data: menu, isSuccess } = useGetMenuQuery('/menu');
 
   const { logout } = useAuth();
   const handleLogout = () => {

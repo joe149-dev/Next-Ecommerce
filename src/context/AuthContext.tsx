@@ -1,7 +1,6 @@
 // ** React Imports
 import { useGetMeQuery, useLoginMutation } from '@/services/auth'
-import { useGetMenuQuery } from '@/services/menu'
-import { createContext, useEffect, useState, ReactNode } from 'react'
+import { createContext, useState, ReactNode } from 'react'
 import { AuthValuesType, ErrCallbackType, LoginParams, UserDataType } from '../types/types'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/store'

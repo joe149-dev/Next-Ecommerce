@@ -17,7 +17,7 @@ export const menuApi = createApi({
     }),
     endpoints: (builder) => ({
         getMenu: builder.query<any, string>({
-            query: () => `/menu`,
+            query: (url) => `${url}`,
             transformResponse: (result: { user: {}, basket: {} }) => result,
             async onQueryStarted(_args, { dispatch, queryFulfilled }) {
                 try {
