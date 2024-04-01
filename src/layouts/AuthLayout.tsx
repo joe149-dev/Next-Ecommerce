@@ -10,9 +10,6 @@ interface Props {
 }
 
 const AuthLayout: React.FC<Props> = ({children}) => {
-    useEffect(() => {
-        console.log('AuthLayout');
-    }, [])
 
     return (
         <div className={`min-h-screen ${inter.className}`}>

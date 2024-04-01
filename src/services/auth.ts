@@ -56,14 +56,6 @@ export const loginApi = createApi({
                 method: 'POST',
                 body,
             }),
-            transformResponse: (result: { token: string, user: any }) => result,
-            async onQueryStarted(_args, { dispatch, queryFulfilled }) {
-                try {
-                    const { data } = await queryFulfilled;
-                    //dispatch(setToken(data.token))
-                } catch (error) {
-                }
-            }
         }),
     }),
 })

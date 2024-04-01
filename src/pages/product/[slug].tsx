@@ -19,7 +19,7 @@ const ProductDetail = () => {
     isLoading,
     isSuccess,
     refetch: abc
-  } = useGetProductDetailQuery(`product/${router.query.seo}`);
+  } = useGetProductDetailQuery(`product/${router.query.slug}`);
 
   const [selectedColor, setSelectedColor] = useState([]);
 
