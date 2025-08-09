@@ -9,7 +9,7 @@ import {toast} from "react-toastify";
 import { removeToken } from '@/store/apps/auth/token'
 import { logout } from '@/store/apps/auth/user'
 
-// ** Defaults
+//  Defaults
 const defaultProvider: AuthValuesType = {
     token: null,
     user: null,
